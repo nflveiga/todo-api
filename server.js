@@ -14,10 +14,22 @@ app.get("/", function(req,res){
     
 });
 
-//app.GET
 
-app.get("/todos",function(req,res){
-    res.json(todos);
+
+//GET by completed: true
+
+app.get("/todos", function(req,res){
+    var queryParams=req.query;
+    var filteredTodos=todos;
+    
+    if(queryParams.hasOwnProperty("completed")&& queryParams.completed==="true"){
+        filteredTodos=_.where(filteredTodos,{completed:true})
+    }
+    else if(queryParams.hasOwnProperty("completed")&& queryParams.completed==="false"){
+        filteredTodos=_.where(filteredTodos,{completed:false})
+    };
+    res.json(filteredTodos);
+    
 });
 
 //app.GET by id
@@ -65,7 +77,7 @@ app.delete("/todos/:id",function(req,res){
     
 }})
 
-//PUT
+//PUT - actualizar todos
 app.put("/todos/:id",function(req,res){
     
     var body=_.pick(req.body, "description","completed");
