@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 
 app.get("/", function(req,res){
-    res.send("todo API root");
+    res.send("public/index.html");
     
 });
 
