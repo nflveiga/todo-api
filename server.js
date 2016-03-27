@@ -7,6 +7,7 @@ var todos=[];
 var todoNextId=1;
 
 app.use(bodyParser.json());
+app.use(express.static(__dirname+"/public"));
 
 
 app.get("/", function(req,res){
@@ -45,12 +46,17 @@ app.get("/todos/:id",function(req,res){
 })
 
 //app POST todos
-app.post("/todos", function(req,res){
-    var body=_.pick(req.body,"description", "completed");
+app.post("/todos/", function(req,res){
+    var body= req.body;
+    console.log(body.description);
+    body=_.pick(body,"description", "completed");
+    console.log(body);
     
     if(!_.isBoolean(body.completed)|| !_.isString(body.description) || body.description.trim().length===0){
-        return res.status(400).send();
+        return res.status(400).send("erro do caralho");
+        console.log("errrrrro");
     };
+    console.log(body);
     
     body.description=body.description.trim();
     body.id=todoNextId;
